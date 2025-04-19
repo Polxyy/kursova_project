@@ -42,17 +42,10 @@ class GameController extends Controller
             'genre' => 'required|string|max:255',
             'release_year' => 'nullable|integer|min:1900|max:' . date('Y'),
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_path' => 'nullable|url|max:2048', // Валидираме, че е URL адрес
         ]);
-
-        $data = $request->all();
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/images/games');
-            $data['image_path'] = str_replace('public/', 'storage/', $imagePath);
-        }
-
-        Game::create($data);
+    
+        Game::create($request->all());
         return redirect()->route('games.index')->with('success', 'Играта беше добавена успешно!');
     }
 
@@ -86,28 +79,18 @@ class GameController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Game $game)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'genre' => 'required|string|max:255',
-            'release_year' => 'nullable|integer|min:1900|max:' . date('Y'),
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'genre' => 'required|string|max:255',
+        'release_year' => 'nullable|integer|min:1900|max:' . date('Y'),
+        'description' => 'nullable|string',
+        'image_path' => 'nullable|url|max:2048', // Валидираме, че е URL адрес
+    ]);
 
-        $data = $request->all();
-
-        if ($request->hasFile('image')) {
-            if ($game->image_path) {
-                Storage::delete(str_replace('storage/', 'public/', $game->image_path));
-            }
-            $imagePath = $request->file('image')->store('public/images/games');
-            $data['image_path'] = str_replace('public/', 'storage/', $imagePath);
-        }
-
-        $game->update($data);
-        return redirect()->route('games.index')->with('success', 'Играта беше обновена успешно!');
-    }
+    $game->update($request->all());
+    return redirect()->route('games.index')->with('success', 'Играта беше обновена успешно!');
+}
 
     /**
      * Remove the specified resource from storage.
