@@ -42,15 +42,15 @@ class GameController extends Controller
             'genre' => 'required|string|max:255',
             'release_year' => 'nullable|integer|min:1900|max:' . date('Y'),
             'description' => 'nullable|string',
-            'image_path' => 'nullable|url|max:2048', // Валидираме, че е URL адрес
+            'image_path' => 'nullable|url|max:2048',
         ]);
-    
+
         Game::create($request->all());
         return redirect()->route('games.index')->with('success', 'Играта беше добавена успешно!');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource. 
      *
      * @param  \App\Models\Game  $game
      * @return \Illuminate\Http\Response
@@ -79,18 +79,18 @@ class GameController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Game $game)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'genre' => 'required|string|max:255',
-        'release_year' => 'nullable|integer|min:1900|max:' . date('Y'),
-        'description' => 'nullable|string',
-        'image_path' => 'nullable|url|max:2048', // Валидираме, че е URL адрес
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
+            'release_year' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'description' => 'nullable|string',
+            'image_path' => 'nullable|url|max:2048',
+        ]);
 
-    $game->update($request->all());
-    return redirect()->route('games.index')->with('success', 'Играта беше обновена успешно!');
-}
+        $game->update($request->all());
+        return redirect()->route('games.index')->with('success', 'Играта беше обновена успешно!');
+    }
 
     /**
      * Remove the specified resource from storage.

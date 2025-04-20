@@ -19,7 +19,7 @@ class CreateGamesTable extends Migration
             $table->string('genre');
             $table->integer('release_year')->nullable();
             $table->text('description')->nullable();
-            $table->string('image_path')->nullable(); 
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }
